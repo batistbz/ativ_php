@@ -1,15 +1,29 @@
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
+    background-color: #f4f4f4;
+    text-align: center;
 }
 
-form {
+h1 {
     margin-bottom: 30px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 40px; /* espaçamento entre os formulários */
+    flex-wrap: wrap; /* quebra para baixo no celular */
+}
+
+.form-box {
+    background: #fff;
     padding: 20px;
     border: 1px solid #ccc;
-    width: 300px;
     border-radius: 8px;
-    background-color: #f9f9f9;
+    width: 300px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: left;
 }
 
 label {
@@ -35,6 +49,7 @@ input[type="submit"] {
     color: white;
     border-radius: 5px;
     transition: 0.3s;
+    width: 100%;
 }
 
 input[type="submit"]:hover {
