@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pompiere&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
 
 body {
     font-family: 'Josefin Sans';
     margin: 20px;
-    background-color: #f6b8b8;
+    background-color: #f7cad0;
     text-align: center;
     color: #ff5d8f;
 }
@@ -17,18 +19,19 @@ h1 {
     justify-content: center;
     gap: 40px; /* espaçamento entre os formulários */
     flex-wrap: wrap; /* quebra para baixo no celular */
-    font-family: Arial;
+    font-family: 'Pompiere', cursive;
     color: black;
 }
 
 .form-box {
-    background: #fff;
+    background: #fae0e4;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
     width: 300px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     text-align: left;
+    font-family: 'Libertinus Serif';
 }
 
 label {
@@ -50,13 +53,15 @@ input[type="submit"] {
     padding: 7px 15px;
     cursor: pointer;
     border: none;
-    background-color: #5c645c;
+    background-color: #ff85a1;
     color: white;
     border-radius: 5px;
     transition: 0.3s;
     width: 100%;
+    font-family: 'Libertinus Serif';
+    font-size: 16px;
 }
 
 input[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #ff477e;
 }
