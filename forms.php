@@ -13,6 +13,7 @@
     <div class="form-box">
         <h2>Formulário de Funcionário</h2>
         <form method="POST" action="processa_funcionario.php">
+            <div class="pequenos">
             <label for="nome_func">Nome:</label>
             <input type="text" name="nome_func" required>
 
@@ -21,6 +22,7 @@
 
             <label for="salario">Salário:</label>
             <input type="number" name="salario" step="0.01" required>
+            </div>
 
             <input type="submit" name="submit_funcionario" value="Enviar Funcionário">
         </form>
@@ -29,6 +31,7 @@
     <div class="form-box">
         <h2>Formulário de Cliente</h2>
         <form method="POST" action="processa_cliente.php">
+            <div class="pequenos">
             <label for="nome_cli">Nome:</label>
             <input type="text" name="nome_cli" required>
 
@@ -37,7 +40,8 @@
 
             <label for="telefone_cli">Telefone:</label>
             <input type="text" name="telefone_cli" required>
-
+            </div>
+            
             <input type="submit" name="submit_cliente" value="Enviar Cliente">
         </form>
     </div>

@@ -23,6 +23,10 @@ h1 {
     color: black;
 }
 
+.pequenos {
+    color: #6c757d;
+    font-family: 'Libertinus Serif';
+}
 .form-box {
     background: #fae0e4;
     padding: 20px;
@@ -32,6 +36,7 @@ h1 {
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     text-align: left;
     font-family: 'Libertinus Serif';
+    color: #ff5d8f;
 }
 
 label {
