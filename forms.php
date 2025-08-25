@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<h1>Cadastro</h1>
+<h1>Formulários</h1>
 
 <div class="container">
     <div class="form-box">
