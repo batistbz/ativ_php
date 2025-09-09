@@ -20,11 +20,12 @@
         </div>
 
         <!-- Botão no canto direito -->
-        <button class="bg-pink-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-full">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 18a8 8 0 100-16 8 8 0 000
-                16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"/>
-            </svg>
+        <button class="bg-pink-600 hover:bg-pink-300 text-white hover:text-pink-600 font-bold py-2 px-4 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+         fill="currentColor" 
+         viewBox="0 0 24 24" 
+         class="w-6 h-6">
+        <path d="M8 5v14l11-7z"/>
         </button>
     </div>
             <!DOCTYPE html>
@@ -35,28 +36,29 @@
     <title>Player de Música</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<br>
 <body class="bg-gray-800 text-white p-8">
     <div class="container mx-auto max-w-2xl">
-        <h1 class="text-4xl font-bold text-center text-teal-400 mb-8">Adicionar Música</h1>
+        <h1 class="text-4xl font-bold text-center text-white mb-8">Adicionar Música</h1>
 
-        <form id="add-song-form" class="bg-gray-700 p-6 rounded-lg shadow-lg">
+        <form id="add-song-form" class="bg-white p-6 rounded-lg shadow-lg">
             <div class="mb-4">
-                <label for="titulo" class="block text-sm font-medium mb-1">Título</label>
-                <input type="text" id="titulo" name="titulo" class="w-full p-2 rounded bg-gray-600 border border-gray-500" required>
+                <label for="titulo" class="block text-gray-400 font-medium mb-1">Título</label>
+                <input type="text" id="titulo" name="titulo" class="w-full p-2 rounded bg-pink-600 border border-gray-500" required>
             </div>
             <div class="mb-4">
-                <label for="artista" class="block text-sm font-medium mb-1">Artista</label>
-                <input type="text" id="artista" name="artista" class="w-full p-2 rounded bg-gray-600 border border-gray-500" required>
+                <label for="artista" class="block text-gray-400 font-medium mb-1">Artista</label>
+                <input type="text" id="artista" name="artista" class="w-full p-2 rounded bg-pink-600 border border-gray-500" required>
             </div>
             <div class="mb-4">
-                <label for="album" class="block text-sm font-medium mb-1">Álbum</label>
-                <input type="text" id="album" name="album" class="w-full p-2 rounded bg-gray-600 border border-gray-500">
+                <label for="album" class="block text-gray-400 font-medium mb-1">Álbum</label>
+                <input type="text" id="album" name="album" class="w-full p-2 rounded bg-pink-600 border border-gray-500">
             </div>
                         <div class="mb-4">
-                <label for="caminho" class="block text-sm font-medium mb-1">Caminho do Arquivo</label>
-                <input type="text" id="caminho" name="caminho" class="w-full p-2 rounded bg-gray-600 border border-gray-500" required>
+                <label for="caminho" class="block text-gray-400 font-medium mb-1">Caminho do Arquivo</label>
+                <input type="text" id="caminho" name="caminho" class="w-full p-2 rounded bg-pink-600 border border-gray-500" required>
             </div>
-            <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded transition-colors duration-200">
+            <button type="submit" class="w-full bg-pink-200 hover:bg-teal-600 text-pink-600 font-bold py-2 px-4 rounded transition-colors duration-200">
                 Salvar Música
             </button>
         </form>
