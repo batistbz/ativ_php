@@ -6,13 +6,13 @@
 <title>Lista de Músicas</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-800 text-white p-8">
+<body class="bg-white text-white p-8">
 <div class="container mx-auto max-w-4xl">
-<h1 class="text-4xl font-bold text-center text-teal-400 mb-8">Minhas Músicas</h1>
-<div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+<h1 class="text-4xl font-bold text-center bg-white text-pink-600 mb-8">Minhas Músicas</h1>
+<div class="bg-pink-600 p-6 rounded-lg shadow-lg">
 <table class="w-full text-left table-auto">
 <thead>
-<tr class="text-gray-400">
+<tr class="text-white">
 <th class="p-3 font-semibold">Título</th>
 <th class="p-3 font-semibold">Artista</th>
 <th class="p-3 font-semibold">Álbum</th>
@@ -25,7 +25,7 @@
 </div>
 <script>
 async function fetchSongs() {
-const response = await fetch('http://localhost/player-de-musica/src/list_songs.php');
+const response = await fetch('http://localhost/ativ_php/player/src/list_song.php');
 const result = await response.json();
 const tableBody = document.getElementById('songs-table-body');
 tableBody.innerHTML = ''; // Limpa a tabela

@@ -67,7 +67,7 @@
                 caminho_arquivo: form.caminho.value
             };
 
-            const response = await fetch('http://localhost/player-de-musica/src/create_song.php', {
+            const response = await fetch('http://localhost/ativ_php/player/src/create_song.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
