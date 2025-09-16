@@ -149,6 +149,21 @@ prevButton.addEventListener('click', playPrevious);
 nextButton.addEventListener('click', playNext);
 document.addEventListener('DOMContentLoaded', fetchSongs);
 
+    async function fetchSongs(searchTerm = '') {
+    let url = 'http://localhost/player-de-musica/src/list_songs.php';
+    if (searchTerm) {
+    url += `?search=${searchTerm}`;
+    }
+    const response = await fetch(url);
+    const result = await response.json();
+    // ... lógica de renderização da tabela ...
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+    fetchSongs();
+    document.getElementById('search-input').addEventListener('input', (event) => {
+    fetchSongs(event.target.value);
+    });
+    });
 </script>
 </body>
 </html>
