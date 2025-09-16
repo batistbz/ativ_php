@@ -9,6 +9,27 @@
 <body class="bg-white text-white p-8">
 <div class="container mx-auto max-w-4xl">
 <h1 class="text-4xl font-bold text-center bg-white text-pink-600 mb-8">Minhas Músicas</h1>
+<div class="container mx-auto max-w-4xl">
+<div class="bg-gray-700 p-4 rounded-lg shadow-lg mb-8 flex items-center justify-between">
+<audio id="audio-player" src="" class="hidden"></audio>
+<div id="player-info" class="text-sm">
+<span class="font-bold" id="player-title">Nenhuma música selecionada</span>
+<span class="text-gray-400" id="player-artist"></span>
+</div>
+<div class="flex items-center">
+<button id="play-button" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-full
+transition-colors duration-200">
+<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000
+16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path></svg>
+</button>
+<button id="pause-button" class="hidden bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4
+rounded-full transition-colors duration-200">
+<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000
+16zM8 7v6l5-3-5-3z"></path></svg>
+</button>
+</div>
+</div>
+</div>
 <div class="bg-pink-600 p-6 rounded-lg shadow-lg">
 <table class="w-full text-left table-auto">
 <thead>
@@ -24,26 +45,63 @@
 </div>
 </div>
 <script>
+const audioPlayer = document.getElementById('audio-player');
+const playButton = document.getElementById('play-button');
+const pauseButton = document.getElementById('pause-button');
+const playerTitle = document.getElementById('player-title');
+const playerArtist = document.getElementById('player-artist');
+let allSongs = []; // Variável para armazenar todas as músicas
 async function fetchSongs() {
-const response = await fetch('http://localhost/ativ_php/player/src/list_song.php');
+// ... mesma lógica de fetch que já temos ...
+const response = await fetch('http://localhost/player-de-musica/src/list_songs.php');
 const result = await response.json();
-const tableBody = document.getElementById('songs-table-body');
-tableBody.innerHTML = ''; // Limpa a tabela
 if (result.status === 'sucesso' && result.data.length > 0) {
+allSongs = result.data; // Armazena a lista de músicas
 result.data.forEach(song => {
 const row = document.createElement('tr');
-row.className = 'border-b border-pink-600 hover:bg-pink-400 hover:text-pink-800';
+// ... mesma lógica de criação da linha da tabela ...
 row.innerHTML = `
 <td class="p-3">${song.titulo}</td>
 <td class="p-3">${song.artista}</td>
 <td class="p-3">${song.album || 'N/A'}</td>
+<td class="p-3">
+<button onclick="playSong(${song.id})" class="bg-teal-500 hover:bg-teal-600 text-white fontbold py-1 px-2 rounded text-xs transition-colors duration-200">
+Play
+</button>
+</td>
 `;
-tableBody.appendChild(row);
+// ... adicionar a linha à tabela ...
 });
-} else {
-tableBody.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-gray-500">Nenhuma música encontrada.</td></tr>';
+}
+// ... lógica de erro ...
+}
+async function playSong(id) {
+const song = allSongs.find(s => s.id === id); // Encontra a música pelo ID
+if (song) {
+// Define a URL do arquivo de áudio
+audioPlayer.src = `../music_files/${song.caminho_arquivo}`;
+// Toca a música
+audioPlayer.play();
+// Atualiza as informações exibidas no player
+playerTitle.textContent = song.titulo;
+playerArtist.textContent = `- ${song.artista}`;
+// Mostra o botão de Pause e esconde o de Play
+playButton.classList.add('hidden');
+pauseButton.classList.remove('hidden');
 }
 }
+function pauseSong() {
+audioPlayer.pause();
+playButton.classList.remove('hidden');
+pauseButton.classList.add('hidden');
+}
+// Conecta os botões de play e pause com as funções
+playButton.addEventListener('click', () => {
+audioPlayer.play();
+playButton.classList.add('hidden');
+pauseButton.classList.remove('hidden');
+});
+pauseButton.addEventListener('click', pauseSong);
 document.addEventListener('DOMContentLoaded', fetchSongs);
 </script>
 </body>
