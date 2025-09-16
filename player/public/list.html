@@ -151,7 +151,7 @@ nextButton.addEventListener('click', playNext);
 document.addEventListener('DOMContentLoaded', fetchSongs);
 
     async function fetchSongs(searchTerm = '') {
-    let url = 'http://localhost/player-de-musica/src/list_songs.php';
+    let url = 'http://localhost/ativ_php/player/src/list_songs.php';
     if (searchTerm) {
     url += `?search=${searchTerm}`;
     }
