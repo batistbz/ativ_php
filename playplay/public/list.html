@@ -48,7 +48,7 @@ async function deleteSong(id) {
 if (!confirm('Tem certeza que deseja excluir esta música?')) {
 return;
 }
-const response = await fetch(`http://localhost/player-de-musica/src/delete_song.php?id=${id}`, {
+const response = await fetch(`http://localhost/ativ_php/playplay/src/delete_song.php?id=${id}`, {
 method: 'DELETE'
 });
 const result = await response.json();
