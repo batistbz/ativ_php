@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lista de Músicas</title>
-<script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-800 text-white p-8">
 <div class="container mx-auto max-w-4xl">
@@ -16,7 +12,7 @@
 <th class="p-3 font-semibold">Título</th>
 <th class="p-3 font-semibold">Artista</th>
 <th class="p-3 font-semibold">Álbum</th>
-</tr>
+<th class="p-3 font-semibold">Ações</th> </tr>
 </thead>
 <tbody id="songs-table-body">
 </tbody>
@@ -25,10 +21,10 @@
 </div>
 <script>
 async function fetchSongs() {
-const response = await fetch('http://localhost/ativ_php/playplay/src/list_songs.php');
+const response = await fetch('http://localhost/player-de-musica/src/list_songs.php');
 const result = await response.json();
 const tableBody = document.getElementById('songs-table-body');
-tableBody.innerHTML = ''; // Limpa a tabela
+tableBody.innerHTML = '';
 if (result.status === 'sucesso' && result.data.length > 0) {
 result.data.forEach(song => {
 const row = document.createElement('tr');
@@ -37,12 +33,31 @@ row.innerHTML = `
 <td class="p-3">${song.titulo}</td>
 <td class="p-3">${song.artista}</td>
 <td class="p-3">${song.album || 'N/A'}</td>
+<td class="p-3">
+<button onclick="editSong(${song.id})" class="bg-blue-500 hover:bg-blue-600 text-white fontbold py-1 px-2 rounded text-xs transition-colors duration-200">Editar</button>
+<button onclick="deleteSong(${song.id})" class="bg-red-500 hover:bg-red-600 text-white fontbold py-1 px-2 rounded text-xs transition-colors duration-200 ml-2">Excluir</button>
+</td>
 `;
 tableBody.appendChild(row);
 });
 } else {
-tableBody.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-gray-500">Nenhuma música encontrada.</td></tr>';
+tableBody.innerHTML = '<tr><td colspan="4" class="text-center p-4 text-gray-500">Nenhuma música encontrada.</td></tr>';
 }
+}
+async function deleteSong(id) {
+if (!confirm('Tem certeza que deseja excluir esta música?')) {
+return;
+}
+const response = await fetch(`http://localhost/player-de-musica/src/delete_song.php?id=${id}`, {
+method: 'DELETE'
+});
+const result = await response.json();
+alert(result.mensagem);
+fetchSongs(); // Recarrega a lista
+}
+function editSong(id) {
+alert(`Você clicou em editar a música com ID: ${id}`);
+// A lógica de edição será implementada na atividade de casa
 }
 document.addEventListener('DOMContentLoaded', fetchSongs);
 </script>
