@@ -1,0 +1,48 @@
+
+
+
+
+
+<body class="bg-gray-800 text-white p-8">
+    <div class="container mx-auto max-w-2xl">
+        <h1 class="text-4xl font-bold text-center text-teal-400 mb-8">Adicionar Música</h1>
+        <form id="add-song-form" class="bg-gray-700 p-6 rounded-lg shadow-lg">
+    <div class="mb-4">
+        <label for="titulo" class="block text-sm font-medium mb-1">Título</label>
+        <input type="text" id="titulo" name="titulo" class="w-full p-2 rounded bg-gray-600 border border-gray500" required>
+    </div>
+    <div class="mb-4">
+        <label for="artista" class="block text-sm font-medium mb-1">Artista</label>
+        <input type="text" id="artista" name="artista" class="w-full p-2 rounded bg-gray-600 border bordergray-500" required>
+    </div>
+    <div class="mb-4">
+        <label for="album" class="block text-sm font-medium mb-1">Álbum</label>
+        <input type="text" id="album" name="album" class="w-full p-2 rounded bg-gray-600 border bordergray-500">
+    </div>
+    <div class="mb-4">
+        <label for="caminho" class="block text-sm font-medium mb-1">Caminho do Arquivo</label>
+        <input type="text" id="caminho" name="caminho" class="w-full p-2 rounded bg-gray-600 border
+        border-gray-500" required>
+    </div>
+    <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4
+        rounded transition-colors duration-200">Salvar Música</button>
+    </form>
+    </div>
+
+    <body class="bg-gray-800 text-white p-8">
+     <div class="container mx-auto max-w-4xl">
+        <h1 class="text-4xl font-bold text-center text-teal-400 mb-8">Minhas Músicas</h1>
+    <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+        <table class="w-full text-left table-auto">
+    <thead>
+        <tr class="text-gray-400">
+        <th class="p-3 font-semibold">Título</th>
+        <th class="p-3 font-semibold">Artista</th>
+        <th class="p-3 font-semibold">Álbum</th>
+        <th class="p-3 font-semibold">Ações</th> </tr>
+    </thead>
+        <tbody id="songs-table-body">
+        </tbody>
+        </table>
+        </div>
+        </div>
