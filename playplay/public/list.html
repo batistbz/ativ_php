@@ -2,6 +2,13 @@
 <html lang="pt-BR">
 <head>
 </head>
+
+    <div class="container mx-auto max-w-4xl">
+    <div class="mb-4">
+        <input type="search" id="search-input" placeholder="Buscar por título ou artista..."
+        class="w-full p-2 rounded bg-gray-600 border border-gray-500 text-white">
+    </div>
+    </div>
     <div class="container mx-auto max-w-4xl">
     <div class="bg-gray-700 p-4 rounded-lg shadow-lg mb-8 flex items-center justify-between">
         <audio id="audio-player" src="" class="hidden"></audio>
@@ -90,6 +97,34 @@
                 });
                 pauseButton.addEventListener('click', pauseSong);
                 document.addEventListener('DOMContentLoaded', fetchSongs);
+
+    let currentSongIndex = -1; // -1 indica que nenhuma música está tocando
+    async function fetchSongs() {
+    const response = await fetch('http://localhost/ativ_php/playplay/src/list_songs.php');
+    const result = await response.json();
+    if (result.status === 'sucesso' && result.data.length > 0) {
+    allSongs = result.data;
+    } else {
+    }
+    }
+        function playSong(id) {
+        const song = allSongs.find(s => s.id === id);
+        if (song) {
+        currentSongIndex = allSongs.indexOf(song); 
+        audioPlayer.src = `../music_files/${song.caminho_arquivo}`;
+        audioPlayer.play();        }
+        }
+        function nextSong() {
+        if (allSongs.length === 0) return;
+        currentSongIndex = (currentSongIndex + 1) % allSongs.length;
+        playSong(allSongs[currentSongIndex].id);
+        }
+        function prevSong() {
+        if (allSongs.length === 0) return;
+        currentSongIndex = (currentSongIndex - 1 + allSongs.length) % allSongs.length;
+        playSong(allSongs[currentSongIndex].id);
+        }
+        document.addEventListener('DOMContentLoaded', fetchSongs);
     </script>
 
 </body>
