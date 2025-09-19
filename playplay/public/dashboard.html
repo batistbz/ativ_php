@@ -7,147 +7,197 @@
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-800 text-white p-8">
-    <div class="container mx-auto max-w-2xl">
-        <h1 class="text-4xl font-bold text-center text-teal-400 mb-8">Adicionar Música</h1>
-        <form id="add-song-form" class="bg-gray-700 p-6 rounded-lg shadow-lg">
-    <div class="mb-4">
-        <label for="titulo" class="block text-sm font-medium mb-1">Título</label>
-        <input type="text" id="titulo" name="titulo" class="w-full p-2 rounded bg-gray-600 border border-gray500" required>
-    </div>
-    <div class="mb-4">
-        <label for="artista" class="block text-sm font-medium mb-1">Artista</label>
-        <input type="text" id="artista" name="artista" class="w-full p-2 rounded bg-gray-600 border bordergray-500" required>
-    </div>
-    <div class="mb-4">
-        <label for="album" class="block text-sm font-medium mb-1">Álbum</label>
-        <input type="text" id="album" name="album" class="w-full p-2 rounded bg-gray-600 border bordergray-500">
-    </div>
-    <div class="mb-4">
-        <label for="caminho" class="block text-sm font-medium mb-1">Caminho do Arquivo</label>
-        <input type="text" id="caminho" name="caminho" class="w-full p-2 rounded bg-gray-600 border
-        border-gray-500" required>
-    </div>
-    <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4
-        rounded transition-colors duration-200">Salvar Música</button>
+
+<div class="container mx-auto max-w-2xl">
+    <h1 class="text-4xl font-bold text-center text-teal-400 mb-8">Adicionar Música</h1>
+
+    <!-- ALERTA -->
+    <div id="alert-box" class="hidden p-3 mb-4 rounded text-white text-center font-semibold"></div>
+
+    <form id="add-song-form" class="bg-gray-700 p-6 rounded-lg shadow-lg">
+        <div class="mb-4">
+            <label for="titulo" class="block text-sm font-medium mb-1">Título</label>
+            <input type="text" id="titulo" name="titulo" class="w-full p-2 rounded bg-gray-600 border border-gray-500" required>
+        </div>
+        <div class="mb-4">
+            <label for="artista" class="block text-sm font-medium mb-1">Artista</label>
+            <input type="text" id="artista" name="artista" class="w-full p-2 rounded bg-gray-600 border border-gray-500" required>
+        </div>
+        <div class="mb-4">
+            <label for="album" class="block text-sm font-medium mb-1">Álbum</label>
+            <input type="text" id="album" name="album" class="w-full p-2 rounded bg-gray-600 border border-gray-500">
+        </div>
+        <div class="mb-4">
+            <label for="caminho" class="block text-sm font-medium mb-1">Caminho do Arquivo</label>
+            <input type="text" id="caminho" name="caminho" class="w-full p-2 rounded bg-gray-600 border border-gray-500" required>
+        </div>
+        <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded transition-colors duration-200">Salvar Música</button>
     </form>
-    </div>
-    <br>
-    <body class="bg-gray-800 text-white p-8">
-     <div class="container mx-auto max-w-4xl">
-        <h1 class="text-4xl font-bold text-center text-teal-400 mb-8">Minhas Músicas</h1>
+</div>
+
+<br>
+
+<div class="container mx-auto max-w-4xl">
+    <h1 class="text-4xl font-bold text-center text-teal-400 mb-4">Minhas Músicas</h1>
     <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
         <table class="w-full text-left table-auto">
-    <thead>
-        <tr class="text-gray-400">
-        <th class="p-3 font-semibold">Título</th>
-        <th class="p-3 font-semibold">Artista</th>
-        <th class="p-3 font-semibold">Álbum</th>
-        <th class="p-3 font-semibold">Ações</th> </tr>
-    </thead>
-        <tbody id="songs-table-body">
-        </tbody>
+            <thead>
+                <tr class="text-gray-400">
+                    <th class="p-3 font-semibold">Título</th>
+                    <th class="p-3 font-semibold">Artista</th>
+                    <th class="p-3 font-semibold">Álbum</th>
+                    <th class="p-3 font-semibold">Ações</th>
+                </tr>
+            </thead>
+            <tbody id="songs-table-body">
+            </tbody>
         </table>
-        </div>
-        </div>
+    </div>
+</div>
 
-    <script>
-    document.getElementById('add-song-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const data = {
-            titulo: form.titulo.value,
-            artista: form.artista.value,
-            album: form.album.value,
-            caminho_arquivo: form.caminho.value
-        };
+<!-- PLAYER -->
+<div class="container mx-auto max-w-2xl mt-8 bg-gray-700 p-6 rounded-lg shadow-lg flex flex-col items-center">
+    <audio id="audio-player" controls class="w-full mb-2"></audio>
+    <div class="flex gap-4">
+        <button id="prev-button" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-1 px-3 rounded">Anterior</button>
+        <button id="play-button" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-1 px-3 rounded">Play</button>
+        <button id="pause-button" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-1 px-3 rounded hidden">Pause</button>
+        <button id="next-button" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-1 px-3 rounded">Próxima</button>
+    </div>
+    <div class="mt-2 text-center">
+        <span id="player-title" class="font-bold"></span> <span id="player-artist"></span>
+    </div>
+</div>
+
+<script>
+const alertBox = document.getElementById('alert-box');
+const songsTableBody = document.getElementById('songs-table-body');
+const audioPlayer = document.getElementById('audio-player');
+const playButton = document.getElementById('play-button');
+const pauseButton = document.getElementById('pause-button');
+const prevButton = document.getElementById('prev-button');
+const nextButton = document.getElementById('next-button');
+const playerTitle = document.getElementById('player-title');
+const playerArtist = document.getElementById('player-artist');
+
+let allSongs = [];
+let currentSongIndex = -1;
+
+function showAlert(message, type='success') {
+    alertBox.textContent = message;
+    alertBox.className = `p-3 mb-4 rounded text-white text-center font-semibold ${type==='success' ? 'bg-green-600' : 'bg-red-600'}`;
+    alertBox.classList.remove('hidden');
+    setTimeout(() => alertBox.classList.add('hidden'), 3000);
+}
+
+// Função para buscar músicas do PHP
+async function fetchSongs(searchTerm='') {
+    let url = 'http://localhost/ativ_php/playplay/src/list_songs.php';
+    if(searchTerm) url += `?search=${searchTerm}`;
+    try {
+        const response = await fetch(url);
+        const result = await response.json();
+        if(result.status === 'sucesso' && Array.isArray(result.data)) {
+            allSongs = result.data;
+            renderSongsTable();
+        } else {
+            songsTableBody.innerHTML = `<tr><td colspan="4" class="text-center text-gray-400 p-4">Nenhuma música encontrada.</td></tr>`;
+        }
+    } catch(err) {
+        console.error('Erro ao buscar músicas:', err);
+    }
+}
+
+// Renderiza tabela com músicas
+function renderSongsTable() {
+    songsTableBody.innerHTML = '';
+    allSongs.forEach((song, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="p-3">${song.titulo}</td>
+            <td class="p-3">${song.artista}</td>
+            <td class="p-3">${song.album || 'N/A'}</td>
+            <td class="p-3">
+                <button onclick="playSong(${index})" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-1 px-2 rounded text-xs">Play</button>
+            </td>
+        `;
+        songsTableBody.appendChild(row);
+    });
+}
+
+// Play de música
+function playSong(index) {
+    if(allSongs[index]){
+        currentSongIndex = index;
+        const song = allSongs[currentSongIndex];
+        audioPlayer.src = song.caminho_arquivo;
+        audioPlayer.play();
+        playerTitle.textContent = song.titulo;
+        playerArtist.textContent = `- ${song.artista}`;
+        playButton.classList.add('hidden');
+        pauseButton.classList.remove('hidden');
+    }
+}
+
+function pauseSong() {
+    audioPlayer.pause();
+    playButton.classList.remove('hidden');
+    pauseButton.classList.add('hidden');
+}
+
+function nextSong() {
+    if(allSongs.length === 0) return;
+    currentSongIndex = (currentSongIndex + 1) % allSongs.length;
+    playSong(currentSongIndex);
+}
+
+function prevSong() {
+    if(allSongs.length === 0) return;
+    currentSongIndex = (currentSongIndex - 1 + allSongs.length) % allSongs.length;
+    playSong(currentSongIndex);
+}
+
+// Formulário de adicionar música
+document.getElementById('add-song-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const data = {
+        titulo: form.titulo.value,
+        artista: form.artista.value,
+        album: form.album.value,
+        caminho_arquivo: form.caminho.value
+    };
+    try {
         const response = await fetch('http://localhost/ativ_php/playplay/src/create_song.php', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type':'application/json'},
             body: JSON.stringify(data)
         });
         const result = await response.json();
-        alert(result.mensagem);
-        form.reset(); // Limpa o formulário após o envio
-    });
-
-    const audioPlayer = document.getElementById('audio-player');
-    const playButton = document.getElementById('play-button');
-    const pauseButton = document.getElementById('pause-button');
-    const playerTitle = document.getElementById('player-title');
-    const playerArtist = document.getElementById('player-artist');
-    let allSongs = []; 
-    let currentSongIndex = -1;
-
-    async function fetchSongs(searchTerm = '') {
-        let url = 'http://localhost/ativ_php/playplay/src/list_songs.php';
-        if (searchTerm) {
-            url += `?search=${searchTerm}`;
+        if(result.mensagem) {
+            showAlert(result.mensagem,'success');
+            form.reset();
+            fetchSongs(); // Atualiza tabela
         }
-        const response = await fetch(url);
-        const result = await response.json();
-        if (result.status === 'sucesso' && result.data.length > 0) {
-            allSongs = result.data;
-            result.data.forEach(song => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="p-3">${song.titulo}</td>
-                    <td class="p-3">${song.artista}</td>
-                    <td class="p-3">${song.album || 'N/A'}</td>
-                    <td class="p-3">
-                        <button onclick="playSong(${song.id})" class="bg-teal-500 hover:bg-teal-600 text-white fontbold py-1 px-2 rounded text-xs transition-colors duration-200">Play</button>
-                    </td>
-                `;
-            });
-        }
+    } catch(err) {
+        showAlert('Erro ao salvar música','error');
+        console.error(err);
     }
-    function playSong(id) {
-        const song = allSongs.find(s => s.id === id);
-        if (song) {
-            currentSongIndex = allSongs.indexOf(song);
-            audioPlayer.src = `../music_files/${song.caminho_arquivo}`;
-            audioPlayer.play();
-            playerTitle.textContent = song.titulo;
-            playerArtist.textContent = `- ${song.artista}`;
-            playButton.classList.add('hidden');
-            pauseButton.classList.remove('hidden');
-        }
-    }
+});
 
-    function pauseSong() {
-        audioPlayer.pause();
-        playButton.classList.remove('hidden');
-        pauseButton.classList.add('hidden');
-    }
+// Botões do player
+playButton.addEventListener('click', () => {
+    if(audioPlayer.src) audioPlayer.play();
+    playButton.classList.add('hidden');
+    pauseButton.classList.remove('hidden');
+});
+pauseButton.addEventListener('click', pauseSong);
+nextButton.addEventListener('click', nextSong);
+prevButton.addEventListener('click', prevSong);
 
-    function nextSong() {
-        if (allSongs.length === 0) return;
-        currentSongIndex = (currentSongIndex + 1) % allSongs.length;
-        playSong(allSongs[currentSongIndex].id);
-    }
-
-    function prevSong() {
-        if (allSongs.length === 0) return;
-        currentSongIndex = (currentSongIndex - 1 + allSongs.length) % allSongs.length;
-        playSong(allSongs[currentSongIndex].id);
-    }
-
-    playButton.addEventListener('click', () => {
-        audioPlayer.play();
-        playButton.classList.add('hidden');
-        pauseButton.classList.remove('hidden');
-    });
-
-    pauseButton.addEventListener('click', pauseSong);
-
-    document.addEventListener('DOMContentLoaded', () => {
-        fetchSongs();
-        const searchInput = document.getElementById('search-input');
-        if (searchInput) {
-            searchInput.addEventListener('input', (event) => {
-                fetchSongs(event.target.value);
-            });
-        }
-    });
+// Inicializa tabela
+document.addEventListener('DOMContentLoaded', fetchSongs);
 </script>
+
 </body>
 </html>
