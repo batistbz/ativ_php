@@ -51,7 +51,6 @@
         </div>
 
     <script>
-    // --- SCRIPT 1: Adicionar nova música ---
     document.getElementById('add-song-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const form = e.target;
@@ -71,14 +70,13 @@
         form.reset(); // Limpa o formulário após o envio
     });
 
-    // --- SCRIPT 2: Player de música ---
     const audioPlayer = document.getElementById('audio-player');
     const playButton = document.getElementById('play-button');
     const pauseButton = document.getElementById('pause-button');
     const playerTitle = document.getElementById('player-title');
     const playerArtist = document.getElementById('player-artist');
-    let allSongs = []; // Variável para armazenar todas as músicas
-    let currentSongIndex = -1; // -1 indica que nenhuma música está tocando
+    let allSongs = []; 
+    let currentSongIndex = -1;
 
     async function fetchSongs(searchTerm = '') {
         let url = 'http://localhost/ativ_php/playplay/src/list_songs.php';
@@ -102,7 +100,6 @@
             });
         }
     }
-
     function playSong(id) {
         const song = allSongs.find(s => s.id === id);
         if (song) {
@@ -152,7 +149,5 @@
         }
     });
 </script>
-
-
-    </body>
+</body>
 </html>
