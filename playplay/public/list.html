@@ -29,8 +29,8 @@
             // Agora, você pode usar os dados da variável 'song' para preencher o formulário
             document.getElementById('edit-titulo').value = song.titulo;
             document.getElementById('edit-artista').value = song.artista;
-            } else {
-            tableBody.innerHTML = '<tr><td colspan="4" class="text-center p-4 text-gray-500">Nenhuma música encontrada.</td></tr>';
+            }  else {
+                alert(result.mensagem);
             }
             }
             async function deleteSong(id) {
