@@ -1,8 +1,11 @@
-
-
-
-
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerenciador de Músicas</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
 <body class="bg-gray-800 text-white p-8">
     <div class="container mx-auto max-w-2xl">
         <h1 class="text-4xl font-bold text-center text-teal-400 mb-8">Adicionar Música</h1>
@@ -28,7 +31,7 @@
         rounded transition-colors duration-200">Salvar Música</button>
     </form>
     </div>
-
+    <br>
     <body class="bg-gray-800 text-white p-8">
      <div class="container mx-auto max-w-4xl">
         <h1 class="text-4xl font-bold text-center text-teal-400 mb-8">Minhas Músicas</h1>
@@ -46,3 +49,110 @@
         </table>
         </div>
         </div>
+
+    <script>
+    // --- SCRIPT 1: Adicionar nova música ---
+    document.getElementById('add-song-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const data = {
+            titulo: form.titulo.value,
+            artista: form.artista.value,
+            album: form.album.value,
+            caminho_arquivo: form.caminho.value
+        };
+        const response = await fetch('http://localhost/ativ_php/playplay/src/create_song.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        alert(result.mensagem);
+        form.reset(); // Limpa o formulário após o envio
+    });
+
+    // --- SCRIPT 2: Player de música ---
+    const audioPlayer = document.getElementById('audio-player');
+    const playButton = document.getElementById('play-button');
+    const pauseButton = document.getElementById('pause-button');
+    const playerTitle = document.getElementById('player-title');
+    const playerArtist = document.getElementById('player-artist');
+    let allSongs = []; // Variável para armazenar todas as músicas
+    let currentSongIndex = -1; // -1 indica que nenhuma música está tocando
+
+    async function fetchSongs(searchTerm = '') {
+        let url = 'http://localhost/ativ_php/playplay/src/list_songs.php';
+        if (searchTerm) {
+            url += `?search=${searchTerm}`;
+        }
+        const response = await fetch(url);
+        const result = await response.json();
+        if (result.status === 'sucesso' && result.data.length > 0) {
+            allSongs = result.data;
+            result.data.forEach(song => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="p-3">${song.titulo}</td>
+                    <td class="p-3">${song.artista}</td>
+                    <td class="p-3">${song.album || 'N/A'}</td>
+                    <td class="p-3">
+                        <button onclick="playSong(${song.id})" class="bg-teal-500 hover:bg-teal-600 text-white fontbold py-1 px-2 rounded text-xs transition-colors duration-200">Play</button>
+                    </td>
+                `;
+            });
+        }
+    }
+
+    function playSong(id) {
+        const song = allSongs.find(s => s.id === id);
+        if (song) {
+            currentSongIndex = allSongs.indexOf(song);
+            audioPlayer.src = `../music_files/${song.caminho_arquivo}`;
+            audioPlayer.play();
+            playerTitle.textContent = song.titulo;
+            playerArtist.textContent = `- ${song.artista}`;
+            playButton.classList.add('hidden');
+            pauseButton.classList.remove('hidden');
+        }
+    }
+
+    function pauseSong() {
+        audioPlayer.pause();
+        playButton.classList.remove('hidden');
+        pauseButton.classList.add('hidden');
+    }
+
+    function nextSong() {
+        if (allSongs.length === 0) return;
+        currentSongIndex = (currentSongIndex + 1) % allSongs.length;
+        playSong(allSongs[currentSongIndex].id);
+    }
+
+    function prevSong() {
+        if (allSongs.length === 0) return;
+        currentSongIndex = (currentSongIndex - 1 + allSongs.length) % allSongs.length;
+        playSong(allSongs[currentSongIndex].id);
+    }
+
+    playButton.addEventListener('click', () => {
+        audioPlayer.play();
+        playButton.classList.add('hidden');
+        pauseButton.classList.remove('hidden');
+    });
+
+    pauseButton.addEventListener('click', pauseSong);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchSongs();
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            searchInput.addEventListener('input', (event) => {
+                fetchSongs(event.target.value);
+            });
+        }
+    });
+</script>
+
+
+    </body>
+</html>
