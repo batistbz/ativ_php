@@ -29,7 +29,7 @@
         </div>
         <div class="mb-4">
             <label for="caminho" class="block text-sm font-medium mb-1">Caminho do Arquivo</label>
-            <input type="text" id="caminho" name="caminho" class="w-full p-2 rounded bg-gray-600 border border-gray-500" required>
+            <input type="text" id="caminho" name="caminho" placeholder="ex.: musicas/minhaMusica.mp3" class="w-full p-2 rounded bg-gray-600 border border-gray-500" required>
         </div>
         <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded transition-colors duration-200">Salvar Música</button>
     </form>
@@ -37,34 +37,30 @@
 
 <br>
 
-<div class="container mx-auto max-w-4xl">
+<div class="container mx-auto max-w-3xl">
     <h1 class="text-4xl font-bold text-center text-teal-400 mb-4">Minhas Músicas</h1>
-    <div class="bg-gray-700 p-5 rounded-lg shadow-lg">
-        <table class="w-full text-left table-auto">
-            <thead>
-                <tr class="text-gray-400">
-                    <th class="p-3 font-semibold">Título</th>
-                    <th class="p-3 font-semibold">Artista</th>
-                    <th class="p-3 font-semibold">Álbum</th>
-                    <th class="p-3 font-semibold"></th>
-                </tr>
-            </thead>
-            <tbody id="songs-table-body">
-            </tbody>
-        </table>
-    </div>
+    <div class="bg-gray-700 p-5 rounded-lg shadow-lg"> 
+    <table class="w-full table-auto">
+        <thead>
+            <tr class="text-gray-400 text-center">
+                <th class="p-3 font-semibold">Título</th>
+                <th class="p-3 font-semibold">Artista</th>
+                <th class="p-3 font-semibold">Álbum</th>
+            </tr>
+        </thead>
+        <tbody id="songs-table-body" class="text-center">
+        </tbody>
+    </table>
 </div>
+</div>
+
+<!-- PLAYER INVISÍVEL -->
+<audio id="audio-player"></audio>
 
 <script>
 const alertBox = document.getElementById('alert-box');
 const songsTableBody = document.getElementById('songs-table-body');
 const audioPlayer = document.getElementById('audio-player');
-const playButton = document.getElementById('play-button');
-const pauseButton = document.getElementById('pause-button');
-const prevButton = document.getElementById('prev-button');
-const nextButton = document.getElementById('next-button');
-const playerTitle = document.getElementById('player-title');
-const playerArtist = document.getElementById('player-artist');
 
 let allSongs = [];
 let currentSongIndex = -1;
@@ -76,7 +72,7 @@ function showAlert(message, type='success') {
     setTimeout(() => alertBox.classList.add('hidden'), 3000);
 }
 
-// Função para buscar músicas do PHP
+// Busca músicas do PHP
 async function fetchSongs(searchTerm='') {
     let url = 'http://localhost/ativ_php/playplay/src/list_songs.php';
     if(searchTerm) url += `?search=${searchTerm}`;
@@ -87,67 +83,53 @@ async function fetchSongs(searchTerm='') {
             allSongs = result.data;
             renderSongsTable();
         } else {
-            songsTableBody.innerHTML = `<tr><td colspan="4" class="text-center text-gray-400 p-4">Nenhuma música encontrada.</td></tr>`;
+            songsTableBody.innerHTML = `<tr><td colspan="3" class="text-center text-gray-400 p-4">Nenhuma música encontrada.</td></tr>`;
         }
     } catch(err) {
         console.error('Erro ao buscar músicas:', err);
     }
 }
 
-// Renderiza tabela com músicas
+// Renderiza a tabela
 function renderSongsTable() {
     songsTableBody.innerHTML = '';
     allSongs.forEach((song, index) => {
         const row = document.createElement('tr');
+        row.classList.add('cursor-pointer', 'hover:bg-gray-600', 'transition-colors');
         row.innerHTML = `
             <td class="p-3">${song.titulo}</td>
             <td class="p-3">${song.artista}</td>
             <td class="p-3">${song.album || 'N/A'}</td>
-            <td class="p-3">
-                <button onclick="playSong(${index})" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-1 px-2 rounded text-xs">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path d="M4 4v12l10-6L4 4z" />
-                </svg>
-                </button>
-            </td>
         `;
+        row.addEventListener('click', () => playSong(index));
         songsTableBody.appendChild(row);
     });
 }
 
-// Play de música
+// Play
 function playSong(index) {
-    if(allSongs[index]){
+    if(allSongs[index]) {
         currentSongIndex = index;
         const song = allSongs[currentSongIndex];
+        console.log("Tocando:", song.caminho_arquivo);
         audioPlayer.src = song.caminho_arquivo;
-        audioPlayer.play();
-        playerTitle.textContent = song.titulo;
-        playerArtist.textContent = `- ${song.artista}`;
-        playButton.classList.add('hidden');
-        pauseButton.classList.remove('hidden');
+        audioPlayer.play().catch(err => console.error("Erro ao tocar:", err));
+        highlightCurrentSong();
     }
 }
 
-function pauseSong() {
-    audioPlayer.pause();
-    playButton.classList.remove('hidden');
-    pauseButton.classList.add('hidden');
+// Destaca música atual na tabela
+function highlightCurrentSong() {
+    Array.from(songsTableBody.children).forEach((row, idx) => {
+        if (idx === currentSongIndex) {
+            row.classList.add('bg-teal-700');
+        } else {
+            row.classList.remove('bg-teal-700');
+        }
+    });
 }
 
-function nextSong() {
-    if(allSongs.length === 0) return;
-    currentSongIndex = (currentSongIndex + 1) % allSongs.length;
-    playSong(currentSongIndex);
-}
-
-function prevSong() {
-    if(allSongs.length === 0) return;
-    currentSongIndex = (currentSongIndex - 1 + allSongs.length) % allSongs.length;
-    playSong(currentSongIndex);
-}
-
-// Formulário de adicionar música
+// Adiciona nova música
 document.getElementById('add-song-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -167,7 +149,7 @@ document.getElementById('add-song-form').addEventListener('submit', async (e) =>
         if(result.mensagem) {
             showAlert(result.mensagem,'success');
             form.reset();
-            fetchSongs(); // Atualiza tabela
+            fetchSongs();
         }
     } catch(err) {
         showAlert('Erro ao salvar música','error');
@@ -175,17 +157,7 @@ document.getElementById('add-song-form').addEventListener('submit', async (e) =>
     }
 });
 
-// Botões do player
-playButton.addEventListener('click', () => {
-    if(audioPlayer.src) audioPlayer.play();
-    playButton.classList.add('hidden');
-    pauseButton.classList.remove('hidden');
-});
-pauseButton.addEventListener('click', pauseSong);
-nextButton.addEventListener('click', nextSong);
-prevButton.addEventListener('click', prevSong);
-
-// Inicializa tabela
+// Inicializa
 document.addEventListener('DOMContentLoaded', fetchSongs);
 </script>
 
