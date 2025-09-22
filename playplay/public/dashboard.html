@@ -40,27 +40,59 @@
 <div class="container mx-auto max-w-3xl">
     <h1 class="text-4xl font-bold text-center text-teal-400 mb-4">Minhas Músicas</h1>
     <div class="bg-gray-700 p-5 rounded-lg shadow-lg"> 
-    <table class="w-full table-auto">
-        <thead>
-            <tr class="text-gray-400 text-center">
-                <th class="p-3 font-semibold">Título</th>
-                <th class="p-3 font-semibold">Artista</th>
-                <th class="p-3 font-semibold">Álbum</th>
-            </tr>
-        </thead>
-        <tbody id="songs-table-body" class="text-center">
-        </tbody>
-    </table>
-</div>
+        <table class="w-full table-auto">
+            <thead>
+                <tr class="text-gray-400 text-center">
+                    <th class="p-3 font-semibold">Título</th>
+                    <th class="p-3 font-semibold">Artista</th>
+                    <th class="p-3 font-semibold">Álbum</th>
+                </tr>
+            </thead>
+            <tbody id="songs-table-body" class="text-center"></tbody>
+        </table>
+    </div>
 </div>
 
-<!-- PLAYER INVISÍVEL -->
+<!-- MINI PLAYER -->
+<div class="fixed top-4 right-4 bg-gray-900 p-4 rounded-2xl shadow-xl flex items-center gap-4 w-[320px]">
+    <button id="prev-button" class="p-2 hover:bg-gray-700 rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
+          <path d="M6 6v12l8.5-6L6 6zm9 0v12h2V6h-2z"/>
+        </svg>
+    </button>
+    <button id="play-button" class="p-2 hover:bg-gray-700 rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+    </button>
+    <button id="pause-button" class="p-2 hover:bg-gray-700 rounded-full hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+    </button>
+    <button id="next-button" class="p-2 hover:bg-gray-700 rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
+          <path d="M18 6v12l-8.5-6L18 6zm-11 0v12h-2V6h2z"/>
+        </svg>
+    </button>
+    <div class="flex flex-col">
+        <span id="player-title" class="font-bold text-teal-400 truncate max-w-[200px]">Nenhuma música</span>
+        <span id="player-artist" class="text-sm text-gray-300 truncate max-w-[200px]"></span>
+    </div>
+</div>
+
 <audio id="audio-player"></audio>
 
 <script>
 const alertBox = document.getElementById('alert-box');
 const songsTableBody = document.getElementById('songs-table-body');
 const audioPlayer = document.getElementById('audio-player');
+const playButton = document.getElementById('play-button');
+const pauseButton = document.getElementById('pause-button');
+const prevButton = document.getElementById('prev-button');
+const nextButton = document.getElementById('next-button');
+const playerTitle = document.getElementById('player-title');
+const playerArtist = document.getElementById('player-artist');
 
 let allSongs = [];
 let currentSongIndex = -1;
@@ -72,7 +104,7 @@ function showAlert(message, type='success') {
     setTimeout(() => alertBox.classList.add('hidden'), 3000);
 }
 
-// Busca músicas do PHP
+// Busca músicas
 async function fetchSongs(searchTerm='') {
     let url = 'http://localhost/ativ_php/playplay/src/list_songs.php';
     if(searchTerm) url += `?search=${searchTerm}`;
@@ -90,7 +122,6 @@ async function fetchSongs(searchTerm='') {
     }
 }
 
-// Renderiza a tabela
 function renderSongsTable() {
     songsTableBody.innerHTML = '';
     allSongs.forEach((song, index) => {
@@ -106,19 +137,38 @@ function renderSongsTable() {
     });
 }
 
-// Play
 function playSong(index) {
     if(allSongs[index]) {
         currentSongIndex = index;
         const song = allSongs[currentSongIndex];
-        console.log("Tocando:", song.caminho_arquivo);
         audioPlayer.src = song.caminho_arquivo;
         audioPlayer.play().catch(err => console.error("Erro ao tocar:", err));
+        playerTitle.textContent = song.titulo;
+        playerArtist.textContent = song.artista;
+        playButton.classList.add('hidden');
+        pauseButton.classList.remove('hidden');
         highlightCurrentSong();
     }
 }
 
-// Destaca música atual na tabela
+function pauseSong() {
+    audioPlayer.pause();
+    playButton.classList.remove('hidden');
+    pauseButton.classList.add('hidden');
+}
+
+function nextSong() {
+    if(allSongs.length === 0) return;
+    currentSongIndex = (currentSongIndex + 1) % allSongs.length;
+    playSong(currentSongIndex);
+}
+
+function prevSong() {
+    if(allSongs.length === 0) return;
+    currentSongIndex = (currentSongIndex - 1 + allSongs.length) % allSongs.length;
+    playSong(currentSongIndex);
+}
+
 function highlightCurrentSong() {
     Array.from(songsTableBody.children).forEach((row, idx) => {
         if (idx === currentSongIndex) {
@@ -129,7 +179,6 @@ function highlightCurrentSong() {
     });
 }
 
-// Adiciona nova música
 document.getElementById('add-song-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -157,7 +206,16 @@ document.getElementById('add-song-form').addEventListener('submit', async (e) =>
     }
 });
 
-// Inicializa
+// Controles do player
+playButton.addEventListener('click', () => {
+    audioPlayer.play();
+    playButton.classList.add('hidden');
+    pauseButton.classList.remove('hidden');
+});
+pauseButton.addEventListener('click', pauseSong);
+nextButton.addEventListener('click', nextSong);
+prevButton.addEventListener('click', prevSong);
+
 document.addEventListener('DOMContentLoaded', fetchSongs);
 </script>
 
