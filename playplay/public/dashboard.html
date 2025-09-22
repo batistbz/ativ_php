@@ -39,33 +39,19 @@
 
 <div class="container mx-auto max-w-4xl">
     <h1 class="text-4xl font-bold text-center text-teal-400 mb-4">Minhas Músicas</h1>
-    <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+    <div class="bg-gray-700 p-5 rounded-lg shadow-lg">
         <table class="w-full text-left table-auto">
             <thead>
                 <tr class="text-gray-400">
                     <th class="p-3 font-semibold">Título</th>
                     <th class="p-3 font-semibold">Artista</th>
                     <th class="p-3 font-semibold">Álbum</th>
-                    <th class="p-3 font-semibold">Ações</th>
+                    <th class="p-3 font-semibold"></th>
                 </tr>
             </thead>
             <tbody id="songs-table-body">
             </tbody>
         </table>
-    </div>
-</div>
-
-<!-- PLAYER -->
-<div class="container mx-auto max-w-2xl mt-8 bg-gray-700 p-6 rounded-lg shadow-lg flex flex-col items-center">
-    <audio id="audio-player" controls class="w-full mb-2"></audio>
-    <div class="flex gap-4">
-        <button id="prev-button" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-1 px-3 rounded">Anterior</button>
-        <button id="play-button" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-1 px-3 rounded">Play</button>
-        <button id="pause-button" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-1 px-3 rounded hidden">Pause</button>
-        <button id="next-button" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-1 px-3 rounded">Próxima</button>
-    </div>
-    <div class="mt-2 text-center">
-        <span id="player-title" class="font-bold"></span> <span id="player-artist"></span>
     </div>
 </div>
 
@@ -118,7 +104,11 @@ function renderSongsTable() {
             <td class="p-3">${song.artista}</td>
             <td class="p-3">${song.album || 'N/A'}</td>
             <td class="p-3">
-                <button onclick="playSong(${index})" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-1 px-2 rounded text-xs">Play</button>
+                <button onclick="playSong(${index})" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-1 px-2 rounded text-xs">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path d="M4 4v12l10-6L4 4z" />
+                </svg>
+                </button>
             </td>
         `;
         songsTableBody.appendChild(row);
