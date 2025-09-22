@@ -17,33 +17,39 @@
     <!-- FORMULÁRIO DE MÚSICA -->
     <form id="add-song-form" class="bg-pink-200 p-6 rounded-lg shadow-lg border-2 border-pink-600">
         <div class="mb-4">
-            <label for="titulo" class="block text-sm font-medium mb-1">Título</label>
-            <input type="text" id="titulo" name="titulo" class="w-full p-2 rounded bg-gray-600 border border-gray-500" required>
+            <label for="titulo" class="block text-sm font-medium mb-1 text-pink-600">Título</label>
+            <input type="text" id="titulo" name="titulo" class="w-full p-2 rounded bg-pink-300 border-2 border-pink-600" required>
         </div>
         <div class="mb-4">
-            <label for="artista" class="block text-sm font-medium mb-1">Artista</label>
-            <input type="text" id="artista" name="artista" class="w-full p-2 rounded bg-gray-600 border border-gray-500" required>
+            <label for="artista" class="block text-sm font-medium mb-1 text-pink-600">Artista</label>
+            <input type="text" id="artista" name="artista" class="w-full p-2 rounded bg-pink-300 border-2 border-pink-600" required>
         </div>
         <div class="mb-4">
-            <label for="album" class="block text-sm font-medium mb-1">Álbum</label>
-            <input type="text" id="album" name="album" class="w-full p-2 rounded bg-gray-600 border border-gray-500">
+            <label for="album" class="block text-sm font-medium mb-1 text-pink-600">Álbum</label>
+            <input type="text" id="album" name="album" class="w-full p-2 rounded bg-pink-300 border-2 border-pink-600">
         </div>
         <div class="mb-4">
-            <label for="caminho" class="block text-sm font-medium mb-1">Caminho do Arquivo</label>
-            <input type="text" id="caminho" name="caminho" placeholder="ex.: musicas/minhaMusica.mp3" class="w-full p-2 rounded bg-gray-600 border border-gray-500" required>
+    <label for="caminho" class="block text-sm font-medium mb-1 text-pink-600">Caminho do Arquivo</label>
+    <input 
+        type="text" 
+        id="caminho" 
+        name="caminho" 
+        placeholder="ex.: musicas/minhaMusica.mp3" 
+        class="w-full p-2 rounded bg-pink-300 border-2 border-pink-600 placeholder-white text-pink-900" 
+        required>
         </div>
-        <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded transition-colors duration-200">Salvar Música</button>
+        <button type="submit" class="w-full bg-pink-400 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition-colors duration-200">Salvar Música</button> <!-- botão para enviar dados -->
     </form>
 </div>
 
 <br>
-
+                                <!-- tabela que aparecerá as músicas adicionadas-->
 <div class="container mx-auto max-w-3xl">
     <h1 class="text-4xl font-bold text-center text-pink-600 mb-4">Minhas Músicas</h1>
-    <div class="bg-gray-700 p-5 rounded-lg shadow-lg"> 
+    <div class="bg-pink-200 p-5 rounded-lg shadow-lg border-2 border-pink-600"> 
         <table class="w-full table-auto">
             <thead>
-                <tr class="text-gray-400 text-center">
+                <tr class="text-pink-400 text-center">
                     <th class="p-3 font-semibold">Título</th>
                     <th class="p-3 font-semibold">Artista</th>
                     <th class="p-3 font-semibold">Álbum</th>
