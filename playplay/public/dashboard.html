@@ -60,30 +60,30 @@
     </div>
 </div>
 
-<!-- MINI PLAYER -->
+                                            <!-- mini player -->
 <div class="fixed top-4 right-4 bg-pink-700 p-4 rounded-2xl shadow-xl flex items-center gap-4 w-[320px]">
-    <button id="prev-button" class="p-2 hover:bg-gray-700 rounded-full">
+    <button id="prev-button" class="p-2 hover:bg-pink-400 rounded-full">
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
           <path d="M6 6v12l8.5-6L6 6zm9 0v12h2V6h-2z"/>
         </svg>
     </button>
-    <button id="play-button" class="p-2 hover:bg-gray-700 rounded-full">
+    <button id="play-button" class="p-2 hover:bg-pink-400 rounded-full">
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
           <path d="M8 5v14l11-7z"/>
         </svg>
     </button>
-    <button id="pause-button" class="p-2 hover:bg-gray-700 rounded-full hidden">
+    <button id="pause-button" class="p-2 hover:bg-pink-400 rounded-full hidden">
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
           <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
         </svg>
     </button>
-    <button id="next-button" class="p-2 hover:bg-gray-700 rounded-full">
+    <button id="next-button" class="p-2 hover:bg-pink-400 rounded-full">
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
           <path d="M18 6v12l-8.5-6L18 6zm-11 0v12h-2V6h2z"/>
         </svg>
     </button>
     <div class="flex flex-col">
-        <span id="player-title" class="font-bold text-teal-400 truncate max-w-[200px]">Nenhuma música</span>
+        <span id="player-title" class="font-bold text-pink-200 truncate max-w-[200px]">Nenhuma música</span>
         <span id="player-artist" class="text-sm text-gray-300 truncate max-w-[200px]"></span>
     </div>
 </div>
@@ -225,6 +225,5 @@ prevButton.addEventListener('click', prevSong);
 
 document.addEventListener('DOMContentLoaded', fetchSongs);
 </script>
-
 </body>
 </html>
