@@ -1,55 +1,228 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Player de Música</title>
-<script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Músicas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-    <body class="bg-gray-800 text-white p-8">
-    <div class="container mx-auto max-w-2xl">
-        <h1 class="text-4xl font-bold text-center text-teal-400 mb-8">Adicionar Música</h1>
-        <form id="add-song-form" class="bg-gray-700 p-6 rounded-lg shadow-lg">
-    <div class="mb-4">
-        <label for="titulo" class="block text-sm font-medium mb-1">Título</label>
-        <input type="text" id="titulo" name="titulo" class="w-full p-2 rounded bg-gray-600 border border-gray500" required>
-    </div>
-    <div class="mb-4">
-        <label for="artista" class="block text-sm font-medium mb-1">Artista</label>
-        <input type="text" id="artista" name="artista" class="w-full p-2 rounded bg-gray-600 border bordergray-500" required>
-    </div>
-    <div class="mb-4">
-        <label for="album" class="block text-sm font-medium mb-1">Álbum</label>
-        <input type="text" id="album" name="album" class="w-full p-2 rounded bg-gray-600 border bordergray-500">
-    </div>
-    <div class="mb-4">
-        <label for="caminho" class="block text-sm font-medium mb-1">Caminho do Arquivo</label>
-        <input type="text" id="caminho" name="caminho" class="w-full p-2 rounded bg-gray-600 border
-        border-gray-500" required>
-    </div>
-    <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4
-        rounded transition-colors duration-200">Salvar Música</button>
+<body class="bg-pink-200 text-white p-8">
+
+<div class="container mx-auto max-w-2xl">
+    <h1 class="text-4xl font-bold text-center text-pink-600 mb-8">Adicionar Música</h1>
+
+    <!-- ALERTA -->
+    <div id="alert-box" class="hidden p-3 mb-4 rounded text-white text-center font-semibold"></div>
+
+    <!-- FORMULÁRIO DE MÚSICA -->
+    <form id="add-song-form" class="bg-pink-200 p-6 rounded-lg shadow-lg border-2 border-pink-600">
+        <div class="mb-4">
+            <label for="titulo" class="block text-sm font-medium mb-1 text-pink-600">Título</label>
+            <input type="text" id="titulo" name="titulo" class="w-full p-2 rounded bg-pink-300 border-2 border-pink-600" required>
+        </div>
+        <div class="mb-4">
+            <label for="artista" class="block text-sm font-medium mb-1 text-pink-600">Artista</label>
+            <input type="text" id="artista" name="artista" class="w-full p-2 rounded bg-pink-300 border-2 border-pink-600" required>
+        </div>
+        <div class="mb-4">
+            <label for="album" class="block text-sm font-medium mb-1 text-pink-600">Álbum</label>
+            <input type="text" id="album" name="album" class="w-full p-2 rounded bg-pink-300 border-2 border-pink-600">
+        </div>
+        <div class="mb-4">
+    <label for="caminho" class="block text-sm font-medium mb-1 text-pink-600">Caminho do Arquivo</label>
+    <input 
+        type="text" 
+        id="caminho" 
+        name="caminho" 
+        placeholder="ex.: musicas/minhaMusica.mp3" 
+        class="w-full p-2 rounded bg-pink-300 border-2 border-pink-600 placeholder-white text-pink-900" 
+        required>
+        </div>
+        <button type="submit" class="w-full bg-pink-400 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded transition-colors duration-200">Salvar Música</button> <!-- botão para enviar dados -->
     </form>
+</div>
+
+<br>
+                                <!-- tabela que aparecerá as músicas adicionadas-->
+<div class="container mx-auto max-w-3xl selection:bg-pink-400 selection:text-white">    
+    <h1 class="text-4xl font-bold text-center text-pink-600 mb-4">Minhas Músicas</h1>
+    <div class="bg-pink-200 p-5 rounded-lg shadow-lg border-2 border-pink-600"> 
+        <table class="w-full table-auto">
+            <thead>
+                <tr class="text-pink-400 text-center">
+                    <th class="p-3 font-semibold">Título</th>
+                    <th class="p-3 font-semibold">Artista</th>
+                    <th class="p-3 font-semibold">Álbum</th>
+                </tr>
+            </thead>
+            <tbody id="songs-table-body" class="text-center"></tbody>
+        </table>
     </div>
-    <script>
-        document.getElementById('add-song-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const data = {
+</div>
+                                            <!-- mini player -->
+<div class="fixed top-4 right-4 bg-pink-700 p-4 rounded-2xl shadow-xl flex items-center gap-4 w-[320px]">
+    <button id="prev-button" class="p-2 hover:bg-pink-400 rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
+          <path d="M6 6v12l8.5-6L6 6zm9 0v12h2V6h-2z"/>
+        </svg>
+    </button>
+    <button id="play-button" class="p-2 hover:bg-pink-400 rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+    </button>
+    <button id="pause-button" class="p-2 hover:bg-pink-400 rounded-full hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+    </button>
+    <button id="next-button" class="p-2 hover:bg-pink-400 rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
+          <path d="M18 6v12l-8.5-6L18 6zm-11 0v12h-2V6h2z"/>
+        </svg>
+    </button>
+    <div class="flex flex-col">
+        <span id="player-title" class="font-bold text-pink-200 truncate max-w-[200px]">Nenhuma música</span>
+        <span id="player-artist" class="text-sm text-gray-300 truncate max-w-[200px]"></span>
+    </div>
+</div>
+
+<audio id="audio-player"></audio>
+
+<script>
+const alertBox = document.getElementById('alert-box');
+const songsTableBody = document.getElementById('songs-table-body');
+const audioPlayer = document.getElementById('audio-player');
+const playButton = document.getElementById('play-button');
+const pauseButton = document.getElementById('pause-button');
+const prevButton = document.getElementById('prev-button');
+const nextButton = document.getElementById('next-button');
+const playerTitle = document.getElementById('player-title');
+const playerArtist = document.getElementById('player-artist');
+
+let allSongs = [];
+let currentSongIndex = -1;
+
+function showAlert(message, type='success') {
+    alertBox.textContent = message;
+    alertBox.className = `p-3 mb-4 rounded text-white text-center font-semibold ${type==='success' ? 'bg-green-600' : 'bg-red-600'}`;
+    alertBox.classList.remove('hidden');
+    setTimeout(() => alertBox.classList.add('hidden'), 3000);
+}
+
+// Busca músicas
+async function fetchSongs(searchTerm='') {
+    let url = 'http://localhost/ativ_php/playplay/src/list_songs.php';
+    if(searchTerm) url += `?search=${searchTerm}`;
+    try {
+        const response = await fetch(url);
+        const result = await response.json();
+        if(result.status === 'sucesso' && Array.isArray(result.data)) {
+            allSongs = result.data;
+            renderSongsTable();
+        } else {
+            songsTableBody.innerHTML = `<tr><td colspan="3" class="text-center text-gray-400 p-4">Nenhuma música encontrada.</td></tr>`;
+        }
+    } catch(err) {
+        console.error('Erro ao buscar músicas:', err);
+    }
+}
+
+function renderSongsTable() {
+    songsTableBody.innerHTML = '';
+    allSongs.forEach((song, index) => {
+        const row = document.createElement('tr');
+        row.classList.add('cursor-pointer', 'hover:bg-pink-400', 'transition-colors');
+        row.innerHTML = `
+            <td class="p-3">${song.titulo}</td>
+            <td class="p-3">${song.artista}</td>
+            <td class="p-3">${song.album || 'N/A'}</td>
+        `;
+        row.addEventListener('click', () => playSong(index));
+        songsTableBody.appendChild(row);
+    });
+}
+
+function playSong(index) {
+    if(allSongs[index]) {
+        currentSongIndex = index;
+        const song = allSongs[currentSongIndex];
+        audioPlayer.src = song.caminho_arquivo;
+        audioPlayer.play().catch(err => console.error("Erro ao tocar:", err));
+        playerTitle.textContent = song.titulo;
+        playerArtist.textContent = song.artista;
+        playButton.classList.add('hidden');
+        pauseButton.classList.remove('hidden');
+        highlightCurrentSong();
+    }
+}
+
+function pauseSong() {
+    audioPlayer.pause();
+    playButton.classList.remove('hidden');
+    pauseButton.classList.add('hidden');
+}
+
+function nextSong() {
+    if(allSongs.length === 0) return;
+    currentSongIndex = (currentSongIndex + 1) % allSongs.length;
+    playSong(currentSongIndex);
+}
+
+function prevSong() {
+    if(allSongs.length === 0) return;
+    currentSongIndex = (currentSongIndex - 1 + allSongs.length) % allSongs.length;
+    playSong(currentSongIndex);
+}
+
+function highlightCurrentSong() {
+    Array.from(songsTableBody.children).forEach((row, idx) => {
+        if (idx === currentSongIndex) {
+            row.classList.add('bg-pink-700');
+        } else {
+            row.classList.remove('bg-pink-700');
+        }
+    });
+}
+
+document.getElementById('add-song-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const data = {
         titulo: form.titulo.value,
         artista: form.artista.value,
         album: form.album.value,
         caminho_arquivo: form.caminho.value
-        };
+    };
+    try {
         const response = await fetch('http://localhost/ativ_php/playplay/src/create_song.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(data)
         });
         const result = await response.json();
-        alert(result.mensagem);
-        form.reset(); // Limpa o formulário após o envio
-        });
-</script>
+        if(result.mensagem) {
+            showAlert(result.mensagem,'success');
+            form.reset();
+            fetchSongs();
+        }
+    } catch(err) {
+        showAlert('Erro ao salvar música','error');
+        console.error(err);
+    }
+});
+
+// Controles do player
+playButton.addEventListener('click', () => {
+    audioPlayer.play();
+    playButton.classList.add('hidden');
+    pauseButton.classList.remove('hidden');
+});
+pauseButton.addEventListener('click', pauseSong);
+nextButton.addEventListener('click', nextSong);
+prevButton.addEventListener('click', prevSong);
+
+document.addEventListener('DOMContentLoaded', fetchSongs);
+</script>   
 </body>
 </html>
