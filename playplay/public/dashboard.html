@@ -132,7 +132,7 @@ function renderSongsTable() {
     songsTableBody.innerHTML = '';
     allSongs.forEach((song, index) => {
         const row = document.createElement('tr');
-        row.classList.add('cursor-pointer', 'hover:bg-gray-600', 'transition-colors');
+        row.classList.add('cursor-pointer', 'hover:bg-pink-400', 'transition-colors');
         row.innerHTML = `
             <td class="p-3">${song.titulo}</td>
             <td class="p-3">${song.artista}</td>
@@ -178,9 +178,9 @@ function prevSong() {
 function highlightCurrentSong() {
     Array.from(songsTableBody.children).forEach((row, idx) => {
         if (idx === currentSongIndex) {
-            row.classList.add('bg-teal-700');
+            row.classList.add('bg-pink-700');
         } else {
-            row.classList.remove('bg-teal-700');
+            row.classList.remove('bg-pink-700');
         }
     });
 }
