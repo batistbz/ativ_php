@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciador de Músicas</title>
+    <title>Player de Músicas</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-pink-200 text-white p-8">
 
+                                <!-- card no canto esquerdo superior com recadin -->
 <div class="fixed top-4 left-4 bg-pink-700 p-3 rounded-2xl shadow-xl max-w-sm">
     <p class="text-xs leading-snug">
         <span class="font-bold">Atenção:</span> para o player funcionar, coloque o caminho do arquivo exatamente assim:
@@ -22,7 +23,7 @@
     <!-- ALERTA -->
     <div id="alert-box" class="hidden p-3 mb-4 rounded text-white text-center font-semibold"></div>
 
-    <!-- FORMULÁRIO DE MÚSICA -->
+                        <!-- formulário para inserir as músicas -->
     <form id="add-song-form" class="bg-pink-200 p-6 rounded-lg shadow-lg border-2 border-pink-600">
         <div class="mb-4">
             <label for="titulo" class="block text-sm font-medium mb-1 text-pink-600">Título</label>
